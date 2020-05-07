@@ -3,7 +3,7 @@
 # Make sure you have the latest version of the repo
 echo
 git init
-git remote add origin https://github.com/udacity/CarND-Capstone.git
+git remote add https://github.com/rajaneesh-mutyalapati/autonomous.git
 git pull
 echo
 
