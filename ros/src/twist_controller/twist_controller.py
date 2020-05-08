@@ -18,11 +18,11 @@ class Controller(object):
 
  
     
-        kp =0.15
+        kp =0.3
         ki = 0.1
-        kd = 2.5
+        kd = 0.0
         mn = 0
-        mx = 1.0
+        mx = 0.2
         
         self.throttle_controller = PID(kp, ki,kd, mn, mx)
         
@@ -36,18 +36,18 @@ class Controller(object):
         self.decel_limit = decel_limit
         self.accel_limit = accel_limit
         self.wheel_radius = wheel_radius
- 
-        self.wheel_base = wheel_base #not currently used
-        self.steer_ratio = steer_ratio #not currently used
-        self.max_lat_accel =  max_lat_accel #not currently used
-        self.max_steer_angle = max_steer_angle#not currently used
-        self.min_speed = min_speed #not currently used
+
         
         self.last_time = rospy.get_time()
      
 
     
     def control(self, current_vel, dbw_enabled, linear_vel, angular_vel): 
+        
+        if not dbw_enabled:
+            self.throttle_controller.reset()
+            return 0.0, 0.0, 0.0
+        
         current_vel = self.vel_lpf.filt(current_vel)
                 
         steering = self.yaw_controller.get_steering(linear_vel, angular_vel, current_vel)
